@@ -27,7 +27,6 @@ function step3(externalDirectoryEntry) {
 
   // showMessage('db location url: ' + url)
 
-  // database = window.sqlitePlugin.openDatabase({name: 'plain.db', androidDatabaseLocation: url},
   database = window.sqlitePlugin.openDatabase({
     name: 'base.sqlitedb',
     key: 'testKey',
