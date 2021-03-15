@@ -33,7 +33,7 @@ function step3(externalDirectoryEntry) {
     key: 'testKey',
     androidDatabaseLocation: url
   }, function() {
-    showMessage('update 2 - db open ok from location url: ' + url)
+    showMessage('open db OK with location url: ' + url)
   }, function(e) {
     showMessage('open error: ' + e.message)
   })
