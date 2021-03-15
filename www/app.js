@@ -13,7 +13,7 @@ function initDatabase() {
 }
 
 function step2() {
-  var externalDirectory = cordova.file.externalRootDirectory
+  var externalDirectory = cordova.file.externalDataDirectory
 
   window.resolveLocalFileSystemURL(externalDirectory, step3, function(e) {
     showMessage('file error: ' + e.message)
