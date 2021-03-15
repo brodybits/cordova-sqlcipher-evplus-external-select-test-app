@@ -1,38 +1,44 @@
 var database = null;
 
-var nextUser = 101;
-
 function initDatabase() {
+  var permissions = cordova.plugins.permissions
 
-// showMessage('start init')
+  permissions.requestPermission(
+    permissions.WRITE_EXTERNAL_STORAGE,
+    step2,
+    function(e) {
+      showMessage('permissions error: ' + e.message)
+    }
+  )
+}
 
-var permissions = cordova.plugins.permissions
+function step2() {
+  var externalDirectory = cordova.file.externalRootDirectory
 
-var externalDirectory = cordova.file.externalRootDirectory
+  window.resolveLocalFileSystemURL(externalDirectory, step3, function(e) {
+    showMessage('file error: ' + e.message)
+  })
+}
 
-permissions.requestPermission(permissions.WRITE_EXTERNAL_STORAGE,
-function() {
-window.resolveLocalFileSystemURL(externalDirectory, function(externalDirectoryEntry) {
-	// showMessage('resolved external directory URL: ' + externalDirectoryEntry.toURL())
-
-  // database = window.sqlitePlugin.openDatabase({name: 'plain.db', androidDatabaseLocation: externalDataDirectoryEntry.toURL()});
+function step3(externalDirectoryEntry) {
+  // showMessage('resolved external directory URL: ' + externalDirectoryEntry.toURL())
 
   var url =  externalDirectoryEntry.toURL()
 
   // showMessage('db location url: ' + url)
 
   // database = window.sqlitePlugin.openDatabase({name: 'plain.db', androidDatabaseLocation: url},
-  database = window.sqlitePlugin.openDatabase({name: 'base.sqlitedb', key: 'testKey', androidDatabaseLocation: url},
-	  function() { showMessage('db open ok from location url: ' + url)},
-	  function(e) { showMessage('open error: ' + e.message) }
-  )
+  database = window.sqlitePlugin.openDatabase({
+    name: 'base.sqlitedb',
+    key: 'testKey',
+    androidDatabaseLocation: url
+  }, function() {
+    showMessage('update 2 - db open ok from location url: ' + url)
+  }, function(e) {
+    showMessage('open error: ' + e.message)
+  })
 
-	// showMessage('started to open the database')
-
-}, function(e) { showMessage('file error: ' + e.message) } )
-
-}, function(e) { showMessage('permissions error: ' + e.message) })
-
+  // showMessage('started to open the database')
 }
 
 function selectTest() {
